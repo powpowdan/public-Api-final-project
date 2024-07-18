@@ -12,21 +12,42 @@
 </head>
 
 <body>
-  <h1>What's your secret?</h1>
-  <%=user %>
-  <% if (locals.user) { %>
-   
-
-
-  <div class="card">
-    <p>
-      <%=secret %>
+  <h1>The Horrible Joke Generator</h1> 
+  <% if (locals.joke) { %> 
+  <div class="user">
+    <h2>Random Joke: </h2>
+    <p class="joke">
+      <%=joke %>
     </p>
+    </div>
+      <% } %>
+      <% if (locals.setup) { %> 
+        <div class="user">
+        <p class="joke">
+          <%=setup %>
+        </p>
+
+        <p class="joke">
+          <%=delivery %>
+        </p>
+      </div>
+      <% } %>
+    
   </div>
   <p class="user">
-    <%=user %>
+    <form action="/created-joke" method="post">
+      <label id="joketext" for="username">What do you want your joke to be about?</label>
+      <br>
+      <input class="submit" type="text"  name="submitted"> 
+      <br>
+      <button class="submit" type="submit">Submit</button>
+  </form>
   </p>
-  <% } %>
+ 
+
+<% if (locals.noJoke) { %> 
+<% } %>
+
 </body>
 
 </html>
