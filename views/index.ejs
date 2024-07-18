@@ -12,10 +12,10 @@
 </head>
 
 <body>
-  <h1>The Horrible Joke Generator</h1> 
+  <h1>The Horrible Joke Generator</h1>  
   <% if (locals.joke) { %> 
-  <div class="user">
-    <h2>Random Joke: </h2>
+ 
+  <div class="user"> 
     <p class="joke">
       <%=joke %>
     </p>
@@ -27,9 +27,11 @@
           <%=setup %>
         </p>
 
-        <p class="joke">
-          <%=delivery %>
+        <div class="delivery"> 
+        <p class="joke"> 
+            <%=delivery %> 
         </p>
+      </div>
       </div>
       <% } %>
     
@@ -43,9 +45,11 @@
       <button class="submit" type="submit">Submit</button>
   </form>
   </p>
- 
-
-<% if (locals.noJoke) { %> 
+  
+<% if (locals.noJoke === true) { %> 
+  <div class="user">
+ <P class="joke" style="color:red"> SORRY BUD NO JOKES ABOUT THAT</P>
+</div>
 <% } %>
 
 </body>
