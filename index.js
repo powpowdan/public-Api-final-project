@@ -12,22 +12,29 @@ app.use(express.static("public"));
 // Set the view engine to ejs
 app.set("view engine", "ejs");
 
+function renderJokePage(res, data) {
+  if (data.type === "twopart") {
+    res.render("index.ejs", {
+      setup: data.setup,
+      delivery: data.delivery,
+      noJoke: false,
+    });
+  } else if (data.type === "single") {
+    res.render("index.ejs", {
+      joke: data.joke,
+      noJoke: false,
+    });
+  } else {
+    res.render("index.ejs", {
+      noJoke: true,
+    });
+  }
+}
+
 app.get("/", async (req, res) => {
   try {
-    const result = await axios.get(API_URL);
-
-    if (result.data.type == "twopart") {
-      res.render("index.ejs", {
-        setup: result.data.setup,
-        delivery: result.data.delivery,
-        noJoke: false,
-      });
-    } else {
-      res.render("index.ejs", {
-        joke: result.data.joke,
-        noJoke: false,
-      });
-    }
+    const result = await axios.get(API_URL); 
+    renderJokePage(res, result.data);
   } catch (error) {
     console.log(error.response.data);
     res.status(500);
@@ -40,23 +47,7 @@ app.post("/created-joke", async (req, res) => {
 
   try {
     const result = await axios.get(API_URL + config);
-    console.log("result type: " + result.data.type);
-    if (result.data.type == "twopart") {
-      res.render("index.ejs", {
-        setup: result.data.setup,
-        delivery: result.data.delivery,
-        noJoke: false,
-      });
-    } else if (result.data.type == "single") {
-      res.render("index.ejs", {
-        joke: result.data.joke,
-        noJoke: false,
-      });
-    } else {
-      res.render("index.ejs", {
-        noJoke: true,
-      });
-    }
+    renderJokePage(res, result.data);
   } catch (error) {
     console.log(error.response.data);
     res.status(500);
